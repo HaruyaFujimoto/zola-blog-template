@@ -1,0 +1,86 @@
+// サイトのテーマカラー。
+//
+// bulma.min.css は編集せず、このファイルで CSS 変数を上書きする。
+// base.html で bulma.min.css の「後」に読み込むこと。
+//
+// Bulma は色を 色相(h) / 彩度(s) / 明度(l) に分解して保持しており、
+// h と s を変えるだけで、ホバー時の色や反転色まで自動で追従する。
+//
+// このファイルは zola.toml の compile_sass = true により
+// public/css/theme.css へ圧縮して出力される。コメントは出力に残らない。
+// static/css/ に同名ファイルを置くとそちらが優先され上書きされるので注意。
+
+:root {
+  // Bulma デフォルトは h:233deg s:100% (かなり彩度の高い青紫)
+  --bulma-link-h: 213deg;
+  --bulma-link-s: 75%;
+
+  // is-link コンポーネントの背景色。デフォルトは 63%。
+  // 彩度を下げた分、白文字とのコントラストを保つため暗くしている
+  --bulma-link-l: 48%;
+
+  // 本文中のリンク文字色。デフォルトは 58%。
+  // ここは自動計算されずビルド時に焼き込まれる値なので、
+  // h/s を変えたら明度も手で調整しないとコントラストが不足する
+  --bulma-link-on-scheme-l: 42%;
+
+  // インラインコード（文中の `code`）。
+  // Bulma のデフォルトは文字色に --bulma-danger を流用しており赤くなる。
+  // エラーを示す色ではないため、通常の強調テキスト色に寄せる。
+  //
+  // フェンス付きコードブロックは Zola が pre 要素に style 属性を直接書き出すため、
+  // ここでは制御できない（配色は zola.toml の [markdown.highlighting] で決まる）。
+  // インラインとブロックで背景が異なるのは意図的。
+  //
+  // なお下記はライト / ダークで値が切り替わるトークンを参照しているので、
+  // リンク色と違って明度を手で指定する必要はない
+  --bulma-code: var(--bulma-text-strong);
+  --bulma-code-background: var(--bulma-background);
+}
+
+// .menu の項目は自前で背景を塗るが、その明度は --bulma-scheme-main-l（地の色）で、
+// .footer の背景 --bulma-scheme-main-bis-l とは異なる。
+// そのままではフッタのリンクだけが一段明るい帯になるため、フッタの地に合わせる。
+// ホバー時の色は差分（delta）で計算されるので、これだけで追従する。
+.footer .menu {
+  --bulma-menu-item-background-l: var(--bulma-scheme-main-bis-l);
+}
+
+// hr の色 --bulma-background は地の色 --bulma-scheme-main を前提にした明度で、
+// .footer の背景 --bulma-scheme-main-bis との差が 2% しかなく、ほぼ見えない。
+// ヘッダの hr と同程度のコントラストになるよう、境界線用のトークンに差し替える。
+.footer hr {
+  --bulma-hr-background-color: var(--bulma-border-weak);
+}
+
+// OS の設定がダークの場合
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bulma-link-on-scheme-l: 73%;
+  }
+}
+
+// html 要素で明示指定された場合。メディアクエリより後に置いて優先させる
+[data-theme=light] {
+  --bulma-link-on-scheme-l: 42%;
+}
+
+[data-theme=dark] {
+  --bulma-link-on-scheme-l: 73%;
+}
+
+// 以下は必要になったら有効化する。
+//
+// primary: このテンプレートは is-primary を使っていないため現状は不可視。
+//          ボタン等を追加したら link と揃えること。
+//
+// scheme:  グレー・背景・ボーダーなど無彩色全体の色味。
+//          デフォルトはわずかに青みがかったグレー。
+//
+// :root {
+//   --bulma-primary-h: 213deg;
+//   --bulma-primary-s: 75%;
+//
+//   --bulma-scheme-h: 221;
+//   --bulma-scheme-s: 14%;
+// }

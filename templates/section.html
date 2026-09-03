@@ -1,0 +1,19 @@
+{#- default section template #}
+{%- extends "base.html" %}
+
+{%- block title %}
+{{ section.title }} | {{ config.title }}
+{%- endblock title %}
+
+{%- block content %}
+<section class="content">
+  {{ section.content | safe }}
+  <ul>
+    {%- for page in section.pages %}
+    <li>
+      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endblock content %}

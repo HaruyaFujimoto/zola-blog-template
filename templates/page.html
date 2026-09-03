@@ -1,0 +1,43 @@
+{#- default page template #}
+{%- extends "base.html" %}
+
+{%- block title %}
+{{ page.title }} | {{ config.title }}
+{%- endblock title %}
+
+{%- block content %}
+{%- set label_date = config.extra.page.labels.date | default(value="") %}
+{%- set label_updated = config.extra.page.labels.updated | default(value="") %}
+{%- set label_tags = config.extra.page.labels.tags | default(value="") %}
+<article>
+
+  {#- 作成日、更新日 #}
+  {%- if page.date %}
+  <p class="is-size-7 has-text-grey">
+    <time datetime="{{ page.date }}">{% if label_date %}{{ label_date }} {% endif %}{{ page.date | date(format="%Y-%m-%d") }}</time>
+    {%- if page.updated and page.updated != page.date %}
+    （{% if label_updated %}{{ label_updated }} {% endif %}<time datetime="{{ page.updated }}">{{ page.updated | date(format="%Y-%m-%d") }}</time>）
+    {%- endif %}
+  </p>
+  {%- endif %}
+
+  {#- markdown の埋め込み #}
+  <div class="content">
+    {{ page.content | safe }}
+  </div>
+
+  {#- タグ #}
+  {%- if page.taxonomies.tags %}
+  <footer class="tags mt-5">
+    {#- .tags は flex コンテナなので、ラベルも子要素として並べれば高さが揃う。
+       ただし空の要素を置くと gap の分だけ余白ができるため、ラベルが無ければ出さない #}
+    {%- if label_tags %}
+    <span class="is-size-7 has-text-grey">{{ label_tags }}</span>
+    {%- endif %}
+    {%- for tag in page.taxonomies.tags %}
+    <a class="tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">{{ tag }}</a>
+    {%- endfor %}
+  </footer>
+  {%- endif %}
+</article>
+{%- endblock content %}

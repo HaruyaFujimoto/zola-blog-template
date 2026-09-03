@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+{#- 配色モード。auto の場合は属性を出さず prefers-color-scheme に委ねる #}
+{%- set color_scheme = config.extra.color_scheme | default(value="auto") %}
+<html lang="{{ config.default_language }}"{% if color_scheme != "auto" %} data-theme="{{ color_scheme }}"{% endif %}>
+{#- #}
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>{% block title %}{% endblock title %}</title>
+  {#- front matter に description があるページだけ出力する。無い場合はタグ自体を出さない #}
+  {%- if page is defined and page.description %}
+  <meta name="description" content="{{ page.description }}">
+  {%- elif section is defined and section.description %}
+  <meta name="description" content="{{ section.description }}">
+  {%- endif %}
+  {#- rss #}
+  <link rel="alternate" type="application/atom+xml" title="{{ config.title }}" href="{{ get_url(path='atom.xml') }}">
+  {#- bulma #}
+  <link rel="stylesheet" href="{{ get_url(path='css/bulma.min.css') }}">
+  <link rel="stylesheet" href="{{ get_url(path='css/theme-for-bulma.css') }}">
+  {%- block head %}{%- endblock head %}
+</head>
+{#- #}
+<body>
+  {%- include "base/header.html" %}
+  <main class="mb-6">
+    <div class="container">
+      {%- include "base/breadcrumb.html" %}
+      {%- block content %}
+      {%- endblock content %}
+    </div>
+  </main>
+  {%- include "base/footer.html" %}
+  {#-
+    <pre data-theme="dark"><code>{{ __tera_context }}</code></pre>
+  -#}
+  {#- #}
+</body>
+{#- #}
+</html>

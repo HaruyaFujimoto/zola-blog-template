@@ -1,0 +1,70 @@
+# The URL the site will be built for
+base_url = "https://example.com"
+
+title = "サンプルタイトル"
+
+description = "説明文"
+
+default_language = "ja"
+
+# The default author for pages
+# copyright の表示に使われる、もし未指定や空文字の場合、 title が copyright に表示される
+author = "著者名"
+
+# Whether to generate a feed file (atom.xml) for the whole site
+generate_feeds = true
+
+# Whether to automatically compile all Sass files in the sass directory
+compile_sass = true
+
+# Whether to build a search index to be used later on by a JavaScript library
+build_search_index = false
+
+# The taxonomies to be rendered for the site
+# page にてタグが一つも定義されていない場合、 /tags/ 以下は作成されない
+taxonomies = [
+  { name = "tags" },
+]
+
+# Various slugification strategies
+[slugify]
+taxonomies = "safe"
+
+[markdown]
+
+[markdown.highlighting]
+theme = "catppuccin-mocha"
+
+[extra]
+# Put all your custom variables here
+
+# 配色モード。"auto" | "light" | "dark"
+# auto は OS の設定（prefers-color-scheme）に従う
+# light / dark は <html> に data-theme 属性を出力して固定する
+color_scheme = "light"
+
+sections_in_header_nav = [
+    "sample/_index.md",
+    "sample2/_index.md",
+]
+sections_in_footer_nav = [
+    "sample/_index.md",
+    "sample2/_index.md",
+]
+
+
+[extra.breadcrumb.labels]
+home = "ホーム"
+
+# フッタ（templates/base/footer/）の設定
+[extra.footer]
+copyright_start_year = 2026
+
+[extra.footer.labels]
+home = "トップページ"
+
+# 記事ページ（templates/page.html）に出すメタ情報のラベル
+[extra.page.labels]
+date = "作成日:"
+updated = "更新日:"
+tags = "タグ:"

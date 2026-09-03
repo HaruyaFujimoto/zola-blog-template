@@ -1,0 +1,15 @@
+<div class="hero is-small">
+  <div class="hero-body px-0">
+    {#- タイトル要素、ページの場合とそれ以外の場合で html 要素を変更する #}
+    {%- if page is defined %}
+    <p class="title"><a class="has-text-inherit" href="{{ config.base_url | safe }}">{{ config.title }}</a></p>
+    {%- else %}
+    <h1 class="title"><a class="has-text-inherit" href="{{ config.base_url | safe }}">{{ config.title }}</a></h1>
+    {%- endif %}
+
+    {#- description #}
+    {%- if config.description %}
+    <p class="subtitle has-text-grey">{{ config.description }}</p>
+    {%- endif %}
+  </div>
+</div>

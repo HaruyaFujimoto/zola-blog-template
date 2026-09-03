@@ -1,0 +1,21 @@
+{#- タグ 1 つに属する記事の一覧。 zola に組み込みテンプレートは無いため必須 #}
+{%- extends "base.html" %}
+
+{%- block title %}
+{{ term.name }} | {{ config.title }}
+{%- endblock title %}
+
+{%- block content %}
+<section class="content">
+  {#- page も section も未定義のため hero が h1 を出す。ここは h2 から始める #}
+  <h2>{{ term.name }}</h2>
+  <ul>
+    {#- term.pages は日付の降順 #}
+    {%- for page in term.pages %}
+    <li>
+      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+    </li>
+    {%- endfor %}
+  </ul>
+</section>
+{%- endblock content %}

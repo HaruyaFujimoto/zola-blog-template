@@ -1,0 +1,18 @@
+{#- 外部リンクを含む、ページ下部のナビゲーション #}
+{%- set label_home = config.extra.footer.labels.home | default(value="トップページ") %}
+{%- set section_paths = config.extra.sections_in_footer_nav | default(value=[]) %}
+
+{#- #}
+<nav class="menu" aria-label="footer">
+  <ul class="menu-list">
+    <li>
+      <a href="{{ config.base_url | safe }}">{{ label_home }}</a>
+    </li>
+    {%- for section_path in section_paths %}
+    {%- set specified_section = get_section(path=section_path) %}
+    <li>
+      <a href="{{ specified_section.permalink | safe }}">{{ specified_section.title }}</a>
+    </li>
+    {%- endfor %}
+  </ul>
+</nav>

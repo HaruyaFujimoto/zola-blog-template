@@ -1,0 +1,26 @@
+{#- hero 要素の直後に配置されるタブ形式のナビゲーション #}
+
+{%- set section_paths = config.extra.sections_in_header_nav | default(value=[]) %}
+
+{#- section, page にいる場合、対応する section がナビゲーションに存在していれば強調表示する #}
+{%- set current_section_path = "" %}
+{%- if section is defined %}
+  {%- set current_section_path = section.relative_path %}
+{%- elif page is defined %}
+  {%- set current_section_path = page.ancestors | last %}
+{%- endif %}
+
+{#- #}
+{%- if section_paths | length > 0 %}
+<nav class="tabs">
+  <ul>
+    {%- for section_path in section_paths %}
+    {%- set specified_section = get_section(path=section_path) %}
+    {%- set is_current = section_path == current_section_path %}
+    <li{% if is_current %} class="is-active"{% endif %}>
+      <a href="{{ specified_section.permalink | safe }}"{% if is_current %} aria-current="true"{% endif %}>{{ specified_section.title }}</a>
+    </li>
+    {%- endfor %}
+  </ul>
+</nav>
+{%- endif %}

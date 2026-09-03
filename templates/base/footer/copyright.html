@@ -1,0 +1,14 @@
+{#- コピーライト表記、著者と年の表記をする #}
+{%- if config.author %}
+  {%- set copyright_holder = config.author %}
+{%- else %}
+  {%- set copyright_holder = config.title %}
+{%- endif %}
+
+{%- set current_year = now() | date(format="%Y") | int %}
+{%- set start_year = config.extra.footer.copyright_start_year | default(value=0) | int %}
+
+{#- #}
+<p class="is-size-7 has-text-grey has-text-centered">
+  © {% if start_year and start_year < current_year %}{{ start_year }}–{% endif %}{{ current_year }} {{ copyright_holder }}
+</p>

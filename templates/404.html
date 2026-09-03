@@ -1,0 +1,13 @@
+{%- extends "base.html" %}
+
+{%- block title %}
+存在しないページ | {{ config.title }}
+{%- endblock title %}
+
+{%- block content %}
+<section class="content">
+  {#- page も section も未定義のため hero が h1 を使用する、ここは h2 から始める #}
+  <h2>存在しないページ</h2>
+  <p>このページは存在しません。URLが正しいか確認してください。</p>
+</section>
+{%- endblock content %}
