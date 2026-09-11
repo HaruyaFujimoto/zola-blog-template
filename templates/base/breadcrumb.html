@@ -1,54 +1,5 @@
-{#-
-  ページの種類ごとに祖先のたどり方が違うため、先に正規化してから描画する。
-  どの分岐にも入らないページは current が未定義のまま残り、 nav ごと出力されない。
-#}
-{%- set label_home = config.extra.breadcrumb.labels.home | default(value="ホーム") %}
-
-{%- if page is defined %}
-  {#- 先頭はルートセクション。「ホーム」として別に出すので飛ばす #}
-  {%- set ancestors = page.ancestors | slice(start=1) %}
-  {%- set current = page.title %}
-  {%- set current_url = page.permalink %}
-
-{%- elif section is defined and section.components | length > 0 %}
-  {#- ルートセクションは components が空。「ホーム」だけになるので出さない #}
-  {%- set ancestors = section.ancestors | slice(start=1) %}
-  {%- set current = section.title %}
-  {%- set current_url = section.permalink %}
-
-{%- elif term is defined %}
-  {#- /tags/<タグ名>/ #}
-  {%- set parent_name = taxonomy.name %}
-  {%- set parent_url = get_url(path=taxonomy.slug, trailing_slash=true) %}
-  {%- set current = term.name %}
-  {%- set current_url = term.permalink %}
-
-{%- elif taxonomy is defined %}
-  {#- /tags/ #}
-  {%- set current = taxonomy.name %}
-  {%- set current_url = get_url(path=taxonomy.slug, trailing_slash=true) %}
-{%- endif %}
-
-{#- #}
-{%- if current is defined %}
-<nav class="breadcrumb" aria-label="breadcrumbs">
-  <ol>
-    {#- 共通でトップページを最初の要素とする #}
-    <li><a href="{{ config.base_url | safe }}">{{ label_home }}</a></li>
-
-    {#- page, section では ancestors を使用して自分の親までのリストを用意 #}
-    {%- for ancestor in ancestors | default(value=[]) %}
-    {%- set ancestor_section = get_section(path=ancestor) %}
-    <li><a href="{{ ancestor_section.permalink | safe }}">{{ ancestor_section.title }}</a></li>
-    {%- endfor %}
-
-    {#- タグ名のページでは parent_name を使用して親である tags/ を表示 #}
-    {%- if parent_name is defined %}
-    <li><a href="{{ parent_url | safe }}">{{ parent_name }}</a></li>
-    {%- endif %}
-
-    {#- 現在位置の要素を用意 #}
-    <li class="is-active"><a href="{{ current_url | safe }}" aria-current="page">{{ current }}</a></li>
-  </ol>
-</nav>
+{%- if page is defined or section is defined %}
+  {%- include "base/breadcrumb/page_and_section.html" %}
+{%- elif term is defined or taxonomy is defined %}
+  {%- include "base/breadcrumb/taxonomy.html" %}
 {%- endif %}

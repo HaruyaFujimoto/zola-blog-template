@@ -1,0 +1,23 @@
+{%- if page is not defined and section is not defined %}
+  {{ throw(message="base/breadcrumb/page_and_section.html requires page or section to be defined") }}
+{%- endif %}
+
+{%- if page is defined %}
+  {%- set ancestors = page.ancestors %}
+  {%- set current = page.title %}
+  {%- set current_url = page.permalink %}
+{%- else %}
+  {%- set ancestors = section.ancestors %}
+  {%- set current = section.title %}
+  {%- set current_url = section.permalink %}
+{%- endif %}
+
+<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ol>
+    {%- for ancestor in ancestors %}
+      {%- set ancestor_section = get_section(path=ancestor) %}
+      <li><a href="{{ ancestor_section.permalink | safe }}">{{ ancestor_section.title }}</a></li>
+    {%- endfor %}
+    <li class="is-active"><a href="{{ current_url | safe }}" aria-current="page">{{ current }}</a></li>
+  </ol>
+</nav>

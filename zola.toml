@@ -53,9 +53,6 @@ sections_in_footer_nav = [
 ]
 
 
-[extra.breadcrumb.labels]
-home = "ホーム"
-
 # フッタ（templates/base/footer/）の設定
 [extra.footer]
 copyright_start_year = 2026

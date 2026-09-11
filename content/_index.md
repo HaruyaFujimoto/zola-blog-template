@@ -1,5 +1,5 @@
 +++
-title = "トップページ"
+title = "ホーム"
 description = ""
 +++
 
