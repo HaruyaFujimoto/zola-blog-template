@@ -43,15 +43,23 @@ theme = "catppuccin-mocha"
 # light / dark は <html> に data-theme 属性を出力して固定する
 color_scheme = "light"
 
-sections_in_header_nav = [
-    "articles/sample/_index.md",
-    "articles/sample2/_index.md",
-]
 sections_in_footer_nav = [
     "articles/sample/_index.md",
     "articles/sample2/_index.md",
 ]
 
+# header_nav（templates/base/header/header_nav.html）の設定
+# type = "section" | "taxonomy"
+# title を指定すると、自動解決されるタイトル（section の title / taxonomy の name）を上書きできる
+[[extra.header_nav]]
+type = "section"
+path = "articles/_index.md"
+# title = ""
+
+[[extra.header_nav]]
+type = "taxonomy"
+kind = "tags"
+# title = ""
 
 # フッタ（templates/base/footer/）の設定
 [extra.footer]
