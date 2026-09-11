@@ -23,7 +23,7 @@ build_search_index = false
 # The taxonomies to be rendered for the site
 # page にてタグが一つも定義されていない場合、 /tags/ 以下は作成されない
 taxonomies = [
-  { name = "tags" },
+  { name = "tags", paginate_by = 10 },
 ]
 
 # Various slugification strategies
@@ -44,12 +44,12 @@ theme = "catppuccin-mocha"
 color_scheme = "light"
 
 sections_in_header_nav = [
-    "sample/_index.md",
-    "sample2/_index.md",
+    "articles/sample/_index.md",
+    "articles/sample2/_index.md",
 ]
 sections_in_footer_nav = [
-    "sample/_index.md",
-    "sample2/_index.md",
+    "articles/sample/_index.md",
+    "articles/sample2/_index.md",
 ]
 
 

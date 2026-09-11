@@ -2,6 +2,7 @@
 title = "sample"
 sort_by = "date"
 description = ""
+transparent = true
 +++
 
 ## サンプルのセクション (h2)

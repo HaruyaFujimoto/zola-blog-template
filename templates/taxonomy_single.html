@@ -1,5 +1,7 @@
 {#- タグ 1 つに属する記事の一覧。 zola に組み込みテンプレートは無いため必須 #}
 {%- extends "base.html" %}
+{%- import "macros/article.html" as article %}
+{%- import "macros/pagination.html" as pagination %}
 
 {%- block title %}
 {{ term.name }} | {{ config.title }}
@@ -10,12 +12,19 @@
   {#- page も section も未定義のため hero が h1 を出す。ここは h2 から始める #}
   <h2>{{ term.name }}</h2>
   <ul>
-    {#- term.pages は日付の降順 #}
-    {%- for page in term.pages %}
-    <li>
-      <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
-    </li>
-    {%- endfor %}
+    {#- term.pages / paginator.pages は日付の降順 #}
+    {%- if paginator %}
+      {%- for page in paginator.pages %}
+      {{ article::link(page=page) }}
+      {%- endfor %}
+    {%- else %}
+      {%- for page in term.pages %}
+      {{ article::link(page=page) }}
+      {%- endfor %}
+    {%- endif %}
   </ul>
+  {%- if paginator %}
+  {{ pagination::nav(paginator=paginator) }}
+  {%- endif %}
 </section>
 {%- endblock content %}

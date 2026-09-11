@@ -1,0 +1,22 @@
+{%- macro nav(paginator) %}
+<nav class="pagination" role="navigation" aria-label="pagination">
+  {%- if paginator.previous %}
+  <a class="pagination-previous" href="{{ paginator.previous | safe }}">‹ Previous</a>
+  {%- endif %}
+  {%- if paginator.next %}
+  <a class="pagination-next" href="{{ paginator.next | safe }}">Next ›</a>
+  {%- endif %}
+  <ul class="pagination-list">
+    {%- for i in range(end=paginator.number_pagers) %}
+    {%- set page_num = i + 1 %}
+    <li>
+      <a class="pagination-link{% if page_num == paginator.current_index %} is-current{% endif %}"
+         href="{{ paginator.base_url | safe }}{{ page_num }}/"
+         {%- if page_num == paginator.current_index %} aria-current="page"{% endif %}>
+        {{ page_num }}
+      </a>
+    </li>
+    {%- endfor %}
+  </ul>
+</nav>
+{%- endmacro nav %}

@@ -1,0 +1,5 @@
+{%- macro link(page) %}
+<li>
+  <a href="{{ page.permalink | safe }}">{{ page.title }}</a>
+</li>
+{%- endmacro link %}
