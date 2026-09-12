@@ -1,5 +1,13 @@
-{%- if page is defined or section is defined %}
-  {%- include "base/breadcrumb/page_and_section.html" %}
-{%- elif term is defined or taxonomy is defined %}
-  {%- include "base/breadcrumb/taxonomy.html" %}
+{%- if page is defined or section is defined or term is defined or taxonomy is defined %}
+<nav class="breadcrumb" aria-label="breadcrumbs">
+  <ol>
+    {%- if page is defined %}
+      {%- include "base/breadcrumb/page_items.html" %}
+    {%- elif section is defined %}
+      {%- include "base/breadcrumb/section_items.html" %}
+    {%- else %}
+      {%- include "base/breadcrumb/taxonomy_items.html" %}
+    {%- endif %}
+  </ol>
+</nav>
 {%- endif %}

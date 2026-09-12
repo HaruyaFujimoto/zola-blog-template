@@ -1,0 +1,13 @@
+{%- if term is not defined and taxonomy is not defined %}
+  {{ throw(message="base/breadcrumb/taxonomy_items.html requires term or taxonomy to be defined") }}
+{%- endif %}
+
+{%- set home_section = get_section(path="_index.md") %}
+<li><a href="{{ home_section.permalink | safe }}">{{ home_section.title }}</a></li>
+{%- if term is defined %}
+  {%- set parent_url = get_url(path=taxonomy.slug, trailing_slash=true) %}
+  <li><a href="{{ parent_url | safe }}">{{ taxonomy.name }}</a></li>
+  <li class="is-active"><a href="{{ term.permalink | safe }}" aria-current="page">{{ term.name }}</a></li>
+{%- else %}
+  <li class="is-active"><a href="{{ get_url(path=taxonomy.slug, trailing_slash=true) | safe }}" aria-current="page">{{ taxonomy.name }}</a></li>
+{%- endif %}

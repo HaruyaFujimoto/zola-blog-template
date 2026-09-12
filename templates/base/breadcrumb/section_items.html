@@ -1,0 +1,9 @@
+{%- if section is not defined %}
+  {{ throw(message="base/breadcrumb/section_items.html requires section to be defined") }}
+{%- endif %}
+
+{%- for ancestor in section.ancestors %}
+  {%- set ancestor_section = get_section(path=ancestor) %}
+  <li><a href="{{ ancestor_section.permalink | safe }}">{{ ancestor_section.title }}</a></li>
+{%- endfor %}
+<li class="is-active"><a href="{{ section.permalink | safe }}" aria-current="page">{{ section.title }}</a></li>

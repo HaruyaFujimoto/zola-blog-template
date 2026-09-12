@@ -1,0 +1,16 @@
+{%- if page is not defined %}
+  {{ throw(message="base/breadcrumb/page_items.html requires page to be defined") }}
+{%- endif %}
+
+{#- page.ancestors drops any `transparent` ancestor section (Zola quirk),
+   so this file rebuilds the chain from page.components instead. #}
+
+{%- set root_section = get_section(path="_index.md") %}
+<li><a href="{{ root_section.permalink | safe }}">{{ root_section.title }}</a></li>
+{%- set depth = page.components | length %}
+{%- for i in range(end=depth - 1) %}
+  {%- set prefix_str = page.components | slice(end=i + 1) | join(sep="/") %}
+  {%- set ancestor_section = get_section(path=prefix_str ~ "/_index.md") %}
+  <li><a href="{{ ancestor_section.permalink | safe }}">{{ ancestor_section.title }}</a></li>
+{%- endfor %}
+<li class="is-active"><a href="{{ page.permalink | safe }}" aria-current="page">{{ page.title }}</a></li>
