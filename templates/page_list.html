@@ -1,0 +1,28 @@
+{#- ページ（記事）一覧を表示するテンプレート #}
+{%- extends "base.html" %}
+{%- import "macros/article.html" as article %}
+{%- import "macros/pagination.html" as pagination %}
+
+{%- block title %}
+{{ section.title }} | {{ config.title }}
+{%- endblock title %}
+
+{%- block content %}
+<section class="content">
+  {{ section.content | safe }}
+  <ul>
+    {%- if paginator %}
+      {%- for page in paginator.pages %}
+      {{ article::link(page=page) }}
+      {%- endfor %}
+    {%- else %}
+      {%- for page in section.pages %}
+      {{ article::link(page=page) }}
+      {%- endfor %}
+    {%- endif %}
+  </ul>
+  {%- if paginator %}
+  {{ pagination::nav(paginator=paginator) }}
+  {%- endif %}
+</section>
+{%- endblock content %}

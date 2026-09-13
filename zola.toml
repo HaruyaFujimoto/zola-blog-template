@@ -44,22 +44,28 @@ theme = "catppuccin-mocha"
 color_scheme = "light"
 
 sections_in_footer_nav = [
-    "articles/sample/_index.md",
-    "articles/sample2/_index.md",
+    "articles/markdown-elements/_index.md",
+    "articles/no-pages/_index.md",
 ]
 
 # header_nav（templates/base/header/header_nav.html）の設定
 # type = "section" | "taxonomy"
+# title = ""
 # title を指定すると、自動解決されるタイトル（section の title / taxonomy の name）を上書きできる
 [[extra.header_nav]]
 type = "section"
 path = "articles/_index.md"
-# title = ""
+# title = "記事一覧"
+
+[[extra.header_nav]]
+type = "section"
+path = "articles/sections/_index.md"
+# title = "記事分類"
 
 [[extra.header_nav]]
 type = "taxonomy"
 kind = "tags"
-# title = ""
+title = "タグリスト"
 
 # フッタ（templates/base/footer/）の設定
 [extra.footer]

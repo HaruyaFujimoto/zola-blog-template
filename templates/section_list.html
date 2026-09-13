@@ -1,0 +1,30 @@
+{#- 直下セクション一覧を表示するテンプレート。
+   section.extra.target_section を指定すると、そのセクションの subsections を列挙する（未指定時は自分自身）。
+   自分自身は一覧から除外する。 #}
+{%- extends "base.html" %}
+
+{%- block title %}
+{{ section.title }} | {{ config.title }}
+{%- endblock title %}
+
+{%- block content %}
+<section class="content">
+  {{ section.content | safe }}
+  {%- set target = section %}
+  {%- if section.extra.target_section %}
+    {%- set target = get_section(path=section.extra.target_section) %}
+  {%- endif %}
+  <ul>
+    {%- for child_path in target.subsections %}
+      {%- set child = get_section(path=child_path) %}
+      {%- if child.relative_path != section.relative_path %}
+      <li>
+        <a href="{{ child.permalink | safe }}">{{ child.title }}</a>
+        {%- if child.description %} - {{ child.description }}{%- endif %}
+        ({{ child.pages | length }})
+      </li>
+      {%- endif %}
+    {%- endfor %}
+  </ul>
+</section>
+{%- endblock content %}
