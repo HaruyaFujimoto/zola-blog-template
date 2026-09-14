@@ -2,12 +2,10 @@
 
 {%- set nav_items = config.extra.header_nav | default(value=[]) %}
 
-{#- section, page にいる場合、そのnav項目のセクション自身またはセクション配下にいれば current 表示する #}
-{%- set current_section_chain = [] %}
+{#- section を直接表示しているときのみ current 表示する（配下の個別ページ閲覧中はどのタブも current にしない） #}
+{%- set current_section_path = "" %}
 {%- if section is defined %}
-  {%- set current_section_chain = section.ancestors | concat(with=section.relative_path) %}
-{%- elif page is defined %}
-  {%- set current_section_chain = page.ancestors %}
+  {%- set current_section_path = section.relative_path %}
 {%- endif %}
 
 {%- set current_taxonomy_kind = "" %}
@@ -23,7 +21,7 @@
         {%- set resolved = get_section(path=item.path) %}
         {%- set href = resolved.permalink %}
         {%- set label = item.title | default(value=resolved.title) %}
-        {%- set is_current = item.path in current_section_chain %}
+        {%- set is_current = item.path == current_section_path %}
       {%- elif item.type == "taxonomy" %}
         {%- set resolved = get_taxonomy(kind=item.kind) %}
         {%- set href = resolved.permalink %}
