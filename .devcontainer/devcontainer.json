@@ -27,6 +27,6 @@
   // 3000
   // ],
 
-  // "postCreateCommand": "",
+  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
   "remoteUser": "vscode",
 }

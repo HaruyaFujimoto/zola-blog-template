@@ -1,4 +1,4 @@
-{%- macro nav(paginator) %}
+{%- component pagination.nav(paginator) %}
 <nav class="pagination" role="navigation" aria-label="pagination">
   {%- if paginator.previous %}
   <a class="pagination-previous" href="{{ paginator.previous | safe }}">‹ Previous</a>
@@ -19,4 +19,4 @@
     {%- endfor %}
   </ul>
 </nav>
-{%- endmacro nav %}
+{%- endcomponent pagination.nav %}

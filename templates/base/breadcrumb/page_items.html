@@ -9,7 +9,7 @@
 <li><a href="{{ root_section.permalink | safe }}">{{ root_section.title }}</a></li>
 {%- set depth = page.components | length %}
 {%- for i in range(end=depth - 1) %}
-  {%- set prefix_str = page.components | slice(end=i + 1) | join(sep="/") %}
+  {%- set prefix_str = page.components[:i + 1] | join(sep="/") %}
   {%- set ancestor_section = get_section(path=prefix_str ~ "/_index.md") %}
   <li><a href="{{ ancestor_section.permalink | safe }}">{{ ancestor_section.title }}</a></li>
 {%- endfor %}

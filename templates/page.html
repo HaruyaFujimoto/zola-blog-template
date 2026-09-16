@@ -35,7 +35,7 @@
     <span class="is-size-7 has-text-grey">{{ label_tags }}</span>
     {%- endif %}
     {%- for tag in page.taxonomies.tags %}
-    <a class="tag" href="{{ get_taxonomy_url(kind='tags', name=tag) | safe }}">{{ tag }}</a>
+    <a class="tag" href="{{ get_taxonomy_url(kind='tags', term=tag) | safe }}">{{ tag }}</a>
     {%- endfor %}
   </footer>
   {%- endif %}

@@ -11,7 +11,7 @@ git clone 後、 `zola.toml` を書き換えて使用。
 
 ```sh
 # zola --version
-# zola 0.22.1
+# zola 0.23.6
 
 # 開発サーバ、 localhost:1111
 zola serve

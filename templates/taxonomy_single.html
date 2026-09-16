@@ -1,7 +1,5 @@
 {#- タグ 1 つに属する記事の一覧。 zola に組み込みテンプレートは無いため必須 #}
 {%- extends "base.html" %}
-{%- import "macros/article.html" as article %}
-{%- import "macros/pagination.html" as pagination %}
 
 {%- block title %}
 {{ term.name }} | {{ config.title }}
@@ -15,16 +13,16 @@
     {#- term.pages / paginator.pages は日付の降順 #}
     {%- if paginator %}
       {%- for page in paginator.pages %}
-      {{ article::link(page=page) }}
+      {{ <page.list_item page={page} /> }}
       {%- endfor %}
     {%- else %}
       {%- for page in term.pages %}
-      {{ article::link(page=page) }}
+      {{ <page.list_item page={page} /> }}
       {%- endfor %}
     {%- endif %}
   </ul>
   {%- if paginator %}
-  {{ pagination::nav(paginator=paginator) }}
+  {{ <pagination.nav paginator={paginator} /> }}
   {%- endif %}
 </section>
 {%- endblock content %}
