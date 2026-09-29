@@ -8,7 +8,6 @@
       "version": "22",
       "pnpmVersion": "latest",
     },
-    "ghcr.io/anthropics/devcontainer-features/claude-code:1": {},
   },
 
   // .claude.json も含めて Claude Code の設定一式を volume 配下に置く

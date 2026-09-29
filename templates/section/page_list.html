@@ -19,8 +19,8 @@
       {%- endfor %}
     {%- endif %}
   </ul>
-  {%- if paginator %}
-  {{ <pagination.nav paginator={paginator} /> }}
-  {%- endif %}
 </section>
+{%- if paginator %}
+{{ <pagination.nav paginator={paginator} /> }}
+{%- endif %}
 {%- endblock content %}

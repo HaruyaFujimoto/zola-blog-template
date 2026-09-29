@@ -1,21 +1,46 @@
+{#-
+  Bulma 公式の pagination の構造に合わせる。
+  ページ番号は「最初・最後・現在ページ ± window」のみ表示し、隠れる区間を省略記号で示す。
+  隠れるのが 1 ページだけの区間は、省略記号にせずその番号を出す。
+#}
 {%- component pagination.nav(paginator) %}
+{#- 現在ページの前後に表示するページ数。0 以上の整数 #}
+{%- set window = 2 %}
+{%- set current = paginator.current_index %}
+{%- set last = paginator.number_pagers %}
 <nav class="pagination" role="navigation" aria-label="pagination">
   {%- if paginator.previous %}
   <a class="pagination-previous" href="{{ paginator.previous | safe }}">‹ Previous</a>
+  {%- else %}
+  <a class="pagination-previous is-disabled" aria-disabled="true">‹ Previous</a>
   {%- endif %}
   {%- if paginator.next %}
   <a class="pagination-next" href="{{ paginator.next | safe }}">Next ›</a>
+  {%- else %}
+  <a class="pagination-next is-disabled" aria-disabled="true">Next ›</a>
   {%- endif %}
   <ul class="pagination-list">
-    {%- for i in range(end=paginator.number_pagers) %}
+    {%- for i in range(end=last) %}
     {%- set page_num = i + 1 %}
+    {#-
+      現在ページの前 (2 〜 current - window - 1) と後 (current + window + 1 〜 last - 1) が隠れる区間。
+      区間が 2 ページ以上なら、その先頭位置に省略記号を 1 つ出す。ちょうど 1 ページなら、そのページの番号を出す。
+    #}
+    {%- set gap_before = page_num == current - window - 1 and current >= window + 4 %}
+    {%- set gap_after = page_num == current + window + 1 and current <= last - window - 3 %}
+    {%- set lone_before = page_num == 2 and current == window + 3 %}
+    {%- set lone_after = page_num == last - 1 and current == last - window - 2 %}
+    {%- if gap_before or gap_after %}
+    <li><span class="pagination-ellipsis">&hellip;</span></li>
+    {%- elif page_num == 1 or page_num == last or (page_num >= current - window and page_num <= current + window) or lone_before or lone_after %}
     <li>
-      <a class="pagination-link{% if page_num == paginator.current_index %} is-current{% endif %}"
+      <a class="pagination-link{% if page_num == current %} is-current{% endif %}"
          href="{{ paginator.base_url | safe }}{{ page_num }}/"
-         {%- if page_num == paginator.current_index %} aria-current="page"{% endif %}>
+         {%- if page_num == current %} aria-current="page"{% endif %}>
         {{ page_num }}
       </a>
     </li>
+    {%- endif %}
     {%- endfor %}
   </ul>
 </nav>

@@ -1,1 +1,3 @@
 /public/
+.playwright-mcp/
+node_modules/
