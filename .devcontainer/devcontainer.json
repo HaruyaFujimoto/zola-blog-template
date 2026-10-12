@@ -3,10 +3,10 @@
 
   "image": "mcr.microsoft.com/devcontainers/base:ubuntu-24.04",
 
+  // typescript-language-server が Node 22 以降を要求するため apt ではなく feature で入れる
   "features": {
     "ghcr.io/devcontainers/features/node:2": {
-      "version": "22",
-      "pnpmVersion": "latest",
+      "version": "24",
     },
   },
 
@@ -15,17 +15,27 @@
     "CLAUDE_CONFIG_DIR": "/home/vscode/.claude",
   },
 
+  // claude, lua-language-server の置き場所。シェルの種類に関係なく PATH を通す
+  "remoteEnv": {
+    "PATH": "/home/vscode/.local/bin:${containerEnv:PATH}",
+  },
+
+  "workspaceFolder": "/workspace",
+  "workspaceMount": "source=${localWorkspaceFolder},target=/workspace,type=bind",
+
   "mounts": [
     "source=claude-code-config-${devcontainerId},target=/home/vscode/.claude,type=volume",
   ],
 
   // volume のマウントポイントは root 所有で作られるため vscode に渡す
-  "onCreateCommand": "sudo chown vscode:vscode /home/vscode/.claude",
+  "onCreateCommand": "sudo chown -R vscode:vscode /home/vscode/.claude",
 
   // "forwardPorts": [
   // 3000
   // ],
 
-  "postCreateCommand": "bash .devcontainer/postCreateCommand.sh",
+  "postCreateCommand": "bash /workspace/.devcontainer/postCreateCommand.sh",
   "remoteUser": "vscode",
+  "updateRemoteUserUID": true,
 }
+
