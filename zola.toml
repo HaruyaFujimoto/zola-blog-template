@@ -43,23 +43,22 @@ theme = "catppuccin-mocha"
 # light / dark は <html> に data-theme 属性を出力して固定する
 color_scheme = "light"
 
-sections_in_footer_nav = [
-    "articles/markdown-elements/_index.md",
-    "articles/no-pages/_index.md",
-]
+sections_in_footer_nav = []
 
 # header_nav（templates/base/header/header_nav.html）の設定
 # type = "section" | "taxonomy"
 # title = ""
 # title を指定すると、自動解決されるタイトル（section の title / taxonomy の name）を上書きできる
+# type = "section" で path の section が存在しない場合（draft など）、その項目は表示を省略する
 [[extra.header_nav]]
 type = "section"
 path = "articles/_index.md"
 # title = "記事一覧"
 
+# content/articles/examples/ 配下を指している。examples/_index.md を draft = true にすると、この項目は表示されなくなる
 [[extra.header_nav]]
 type = "section"
-path = "articles/sections/_index.md"
+path = "articles/examples/sections/_index.md"
 # title = "記事分類"
 
 [[extra.header_nav]]

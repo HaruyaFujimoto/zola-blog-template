@@ -23,6 +23,22 @@ zola build
 zola build --minify # 開発用と差が出る可能性があるので注意
 ```
 
+## 動作確認用のサンプル
+
+テンプレートの動作確認用の section / page は、すべて `content/articles/examples/` 以下にある。
+`examples/_index.md` は `transparent = true` なので、配下の記事は `/articles/` の一覧にも並ぶ。
+
+本番でサンプルを出さないようにするには、`content/articles/examples/_index.md` を `draft = true` にする。配下の section / page は、一覧・タグ・フィード・サイトマップを含めて一切出力されなくなる。
+
+`zola.toml` の `[[extra.header_nav]]` には `articles/examples/sections/_index.md` を指す項目があるが、存在しない section を指す項目は表示が省略されるので、そのままでよい。
+
+`draft = true` のままサンプルを確認したいときは `--drafts` を付ける。
+
+```sh
+zola serve --drafts
+zola build --drafts
+```
+
 ## セクション、記事の作成
 
 セクションと記事はスクリプトで作成する。

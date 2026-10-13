@@ -17,8 +17,22 @@
 <nav class="tabs">
   <ul>
     {%- for item in nav_items %}
+      {%- set_global exists = true %}
       {%- if item.type == "section" %}
-        {%- set resolved = get_section(path=item.path) %}
+        {#- draft などで存在しない section は get_section が失敗するため、
+           root から subsections を辿って存在を確認し、無ければ項目ごと省略する #}
+        {%- set_global resolved = get_section(path="_index.md") %}
+        {%- set parts = item.path | split(pat="/") %}
+        {%- for i in range(end=parts | length - 1) %}
+          {%- if exists %}
+            {%- set next_path = parts[:i + 1] | join(sep="/") ~ "/_index.md" %}
+            {%- if next_path in resolved.subsections %}
+              {%- set_global resolved = get_section(path=next_path) %}
+            {%- else %}
+              {%- set_global exists = false %}
+            {%- endif %}
+          {%- endif %}
+        {%- endfor %}
         {%- set href = resolved.permalink %}
         {%- set label = item.title | default(value=resolved.title) %}
         {%- set is_current = item.path == current_section_path %}
@@ -30,9 +44,11 @@
       {%- else %}
         {{ throw(message="header_nav: unknown type `" ~ item.type ~ "` (must be `section` or `taxonomy`)") }}
       {%- endif %}
+    {%- if exists %}
     <li{% if is_current %} class="is-active"{% endif %}>
       <a href="{{ href | safe }}"{% if is_current %} aria-current="true"{% endif %}>{{ label }}</a>
     </li>
+    {%- endif %}
     {%- endfor %}
   </ul>
 </nav>
